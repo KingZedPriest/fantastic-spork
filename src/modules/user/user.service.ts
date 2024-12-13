@@ -4,6 +4,7 @@ import prisma from "../../utils/prisma";
 import { CreateUserInput } from "./user.schema";
 import { hashPassword } from "../../utils/hash";
 
+//Create user service
 export async function createUser(input: CreateUserInput) {
     const { password, ...rest } = input;
 
@@ -13,4 +14,16 @@ export async function createUser(input: CreateUserInput) {
     })
 
     return user;
+}
+
+//Find user by Email
+export async function findUserByEmail(userEmail: string, include: boolean) {
+    return await prisma.user.findUnique({
+        where: {
+            email: userEmail
+        },
+        include: {
+            products: include
+        }
+    })
 }

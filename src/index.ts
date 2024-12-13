@@ -1,8 +1,12 @@
 import Fastify, { FastifyInstance } from 'fastify';
+import userRoutes from './modules/user/user.route';
 
 const app: FastifyInstance = Fastify({
     logger: true
 })
+
+//Register the routes
+app.register(userRoutes, { prefix: "api/users" })
 
 //Health Check Endpoint
 app.get("/healthcheck", async function () {

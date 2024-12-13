@@ -11,9 +11,9 @@ declare type PaginatedData<T> = {
 
 declare type ResponseData<T> = T | PaginatedData<T>;
 
-declare type ApiResponse<T = IGenericObject> = {
+declare type ApiResponse<T = any> = {
     status: number;
     success: boolean;
     message: string;
-    data?: ResponseData<T>;
+    data?: T;
 }

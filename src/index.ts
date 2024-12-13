@@ -1,7 +1,12 @@
-import fastify, { FastifyInstance } from 'fastify';
+import Fastify, { FastifyInstance } from 'fastify';
 
-const app: FastifyInstance = fastify({
+const app: FastifyInstance = Fastify({
     logger: true
+})
+
+//Health Check Endpoint
+app.get("/healthcheck", async function () {
+    return { status: "OK" }
 })
 
 app.listen({ port: 3000 }, (err, address) => {

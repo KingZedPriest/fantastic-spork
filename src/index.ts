@@ -1,5 +1,6 @@
 import Fastify, { FastifyInstance, FastifyError } from 'fastify';
 import userRoutes from './modules/user/user.route';
+import { userSchemas } from './modules/user/user.schema';
 
 const app: FastifyInstance = Fastify({
     logger: true,
@@ -7,6 +8,10 @@ const app: FastifyInstance = Fastify({
 
 // Register the routes
 app.register(userRoutes, { prefix: '/api/users' });
+
+for (const schema of userSchemas) {
+    app.addSchema(schema)
+}
 
 // Health Check Endpoint
 app.get('/healthcheck', async () => {

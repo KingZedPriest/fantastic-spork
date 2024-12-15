@@ -20,6 +20,7 @@ app.get('/healthcheck', async () => {
 
 // Global error handler
 app.setErrorHandler((error: FastifyError, request, reply) => {
+    
     // Log the error
     request.log.error(error);
 

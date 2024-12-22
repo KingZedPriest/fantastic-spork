@@ -7,7 +7,7 @@ import { sendResponse } from "../../utils/response.utils";
 
 export async function registerUserHandler(request: FastifyRequest<{ Body: CreateUserInput }>, reply: FastifyReply) {
 
-    const { email, name, password } = request.body
+    const { email } = request.body
 
     //Check if user exists
     const userExists = await findUserByEmail(email, false);

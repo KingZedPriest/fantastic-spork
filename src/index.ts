@@ -1,13 +1,16 @@
 import Fastify, { FastifyInstance, FastifyError } from 'fastify';
 import userRoutes from './modules/user/user.route';
+
+//Schemas, Utils
 import { userSchemas } from './modules/user/user.schema';
+import { sendResponse } from './utils/response.utils';
 
 const app: FastifyInstance = Fastify({
     logger: true,
 });
 
 // Register the routes
-app.register(userRoutes, { prefix: '/api/users' });
+app.register(userRoutes, { prefix: '/v1/api/users' });
 
 for (const schema of userSchemas) {
     app.addSchema(schema)
@@ -25,10 +28,7 @@ app.setErrorHandler((error: FastifyError, request, reply) => {
     request.log.error(error);
 
     // Send error response
-    reply.status(error.statusCode || 500).send({
-        error: 'Internal Server Error',
-        message: error.message,
-    });
+    return sendResponse(reply, 500, false, error.message)
 });
 
 // Start the server

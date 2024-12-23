@@ -4,14 +4,14 @@ import { FastifyInstance } from "fastify";
 import { registerUserHandler } from "./user.controller";
 
 //Schemas
-import { $ref } from "./user.schema";
+import { userRef } from "./user.schema";
 
 export default async function userRoutes(app: FastifyInstance) {
     app.post("/",
         { schema: {
-                body: $ref('createUserSchema'),
+                body: userRef('createUserSchema'),
                 response: {
-                    201: $ref('createUserResponseSchema')
+                    201: userRef('createUserResponseSchema')
                 }
             }
         }, registerUserHandler

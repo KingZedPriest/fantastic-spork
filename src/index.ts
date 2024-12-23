@@ -4,10 +4,12 @@ import fastifyJwt from '@fastify/jwt';
 //Schemas, Utils, Routes
 import userRoutes from './modules/user/user.route';
 import { userSchemas } from './modules/user/user.schema';
+import { authSchemas } from './modules/auth/auth.schema';
 import { sendResponse } from './utils/response.utils';
+import authRoutes from './modules/auth/auth.route';
 
 export const app: FastifyInstance = Fastify({
-    logger: true 
+    logger: true
 });
 
 app.register(fastifyJwt, {
@@ -20,10 +22,15 @@ app.decorate("authenticate", async (request: FastifyRequest, reply: FastifyReply
 
 // Register the routes
 app.register(userRoutes, { prefix: '/v1/api/users' });
+app.register(authRoutes, { prefix: '/v1/api' });
 
 for (const schema of userSchemas) {
     app.addSchema(schema)
 }
+for (const schema of authSchemas) {
+    app.addSchema(schema)
+}
+
 
 // Health Check Endpoint
 app.get('/healthcheck', async () => {

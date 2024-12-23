@@ -4,7 +4,6 @@ import { buildJsonSchemas } from "fastify-zod";
 //General Schema
 import { responseCore } from "../general/general.schema";
 
-
 const userCore = {
     email: z.string({
         required_error: "Email is required",

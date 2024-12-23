@@ -16,7 +16,5 @@ export default async function userRoutes(app: FastifyInstance) {
             }
         }, registerUserHandler
     )
-
-    // app.post("/login", {}, loginHandler)
 }
 

@@ -1,6 +1,9 @@
 import { z } from "zod";
 import { buildJsonSchemas } from "fastify-zod";
 
+//Schemas
+import { responseCore } from "../general/general.schema";
+
 const loginSchema = z.object({
     email: z.string({
         required_error: "Email is required",
@@ -13,6 +16,16 @@ const loginSchema = z.object({
     })
 })
 
+const loginResponseSchema = z.object({
+    ...responseCore,
+    data: z.object({
+        accessToken: z.string()
+    }).optional()
+})
+
+export type LoginUserInput = z.infer<typeof loginSchema>
+
 export const { schemas: authSchemas, $ref } = buildJsonSchemas({
-    loginSchema
+    loginSchema,
+    loginResponseSchema
 })

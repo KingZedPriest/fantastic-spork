@@ -6,7 +6,7 @@ import userRoutes from './modules/user/user.route';
 import { userSchemas } from './modules/user/user.schema';
 import { sendResponse } from './utils/response.utils';
 
-const app: FastifyInstance = Fastify({
+export const app: FastifyInstance = Fastify({
     logger: true 
 });
 

@@ -1,15 +1,13 @@
 import Fastify, { FastifyInstance, FastifyError, FastifyRequest, FastifyReply } from 'fastify';
-import pino from 'pino';
 import fastifyJwt from '@fastify/jwt';
-import userRoutes from './modules/user/user.route';
 
-//Schemas, Utils
+//Schemas, Utils, Routes
+import userRoutes from './modules/user/user.route';
 import { userSchemas } from './modules/user/user.schema';
 import { sendResponse } from './utils/response.utils';
 
-const loggerInstance = pino();
 const app: FastifyInstance = Fastify({
-    logger: loggerInstance
+    logger: true 
 });
 
 app.register(fastifyJwt, {

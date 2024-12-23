@@ -7,10 +7,8 @@ import { sendResponse } from "../../utils/response.utils";
 
 export async function registerUserHandler(request: FastifyRequest<{ Body: CreateUserInput }>, reply: FastifyReply) {
 
-    const { email } = request.body
-
     //Check if user exists
-    const userExists = await findUserByEmail(email, false);
+    const userExists = await findUserByEmail(request.body.email, false);
     if (userExists) return sendResponse(reply, 409, false, "User with the same email exists");
 
     // Create user

@@ -1,13 +1,24 @@
-import Fastify, { FastifyInstance, FastifyError } from 'fastify';
+import Fastify, { FastifyInstance, FastifyError, FastifyRequest, FastifyReply } from 'fastify';
+import pino from 'pino';
+import fastifyJwt from '@fastify/jwt';
 import userRoutes from './modules/user/user.route';
 
 //Schemas, Utils
 import { userSchemas } from './modules/user/user.schema';
 import { sendResponse } from './utils/response.utils';
 
+const loggerInstance = pino();
 const app: FastifyInstance = Fastify({
-    logger: true,
+    logger: loggerInstance
 });
+
+app.register(fastifyJwt, {
+    secret: "aRandomSecret"
+})
+
+app.decorate("authenticate", async (request: FastifyRequest, reply: FastifyReply) => {
+    await request.jwtVerify()
+})
 
 // Register the routes
 app.register(userRoutes, { prefix: '/v1/api/users' });
@@ -23,7 +34,7 @@ app.get('/healthcheck', async () => {
 
 // Global error handler
 app.setErrorHandler((error: FastifyError, request, reply) => {
-    
+
     // Log the error
     request.log.error(error);
 

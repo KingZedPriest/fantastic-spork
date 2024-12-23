@@ -26,7 +26,7 @@ export async function loginHandler(request: FastifyRequest<{ Body: LoginUserInpu
 
     if (correctPassword) {
         const { password, salt, ...rest } = user
-        return sendResponse(reply, 200, true, "User was authenticated successfully", app.jwt.sign(rest))
+        return sendResponse(reply, 200, true, "User was authenticated successfully", { accessToken: app.jwt.sign(rest) })
     }
 
     return sendResponse(reply, 401, false, "Incorrect Email or Password");

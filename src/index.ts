@@ -20,17 +20,13 @@ app.decorate("authenticate", async (request: FastifyRequest, reply: FastifyReply
     await request.jwtVerify()
 })
 
-// Register the routes
+// Register the routes and Schemas
 app.register(userRoutes, { prefix: '/v1/api/users' });
 app.register(authRoutes, { prefix: '/v1/api' });
 
-for (const schema of userSchemas) {
+for (const schema of [...userSchemas, ...authSchemas]) {
     app.addSchema(schema)
 }
-for (const schema of authSchemas) {
-    app.addSchema(schema)
-}
-
 
 // Health Check Endpoint
 app.get('/healthcheck', async () => {

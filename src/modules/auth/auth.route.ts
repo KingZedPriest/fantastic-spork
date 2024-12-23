@@ -11,7 +11,9 @@ export default async function authRoutes(app: FastifyInstance) {
         {
             schema: {
                 body: authRef('loginSchema'),
-                response: authRef('loginResponseSchema')
+                response: {
+                    200: authRef('loginResponseSchema')
+                }
             }
         }, loginHandler
     )

@@ -19,7 +19,9 @@ const loginSchema = z.object({
 const loginResponseSchema = z.object({
     ...responseCore,
     data: z.object({
-        accessToken: z.string()
+        accessToken: z.string({
+            required_error: "Returning access token is required"
+        })
     }).optional()
 })
 
@@ -28,4 +30,4 @@ export type LoginUserInput = z.infer<typeof loginSchema>
 export const { schemas: authSchemas, $ref: authRef } = buildJsonSchemas({
     loginSchema,
     loginResponseSchema
-})
+}, { $id: 'AuthSchema' })

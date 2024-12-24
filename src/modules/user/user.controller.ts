@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 
 //Services, Schemas, utils
-import { createUser, findUserByEmail } from "./user.service";
+import { createUser, findUserByEmail, findUsers } from "./user.service";
 import { CreateUserInput } from "./user.schema";
 import { sendResponse } from "../../utils/response.utils";
 
@@ -15,4 +15,10 @@ export async function registerUserHandler(request: FastifyRequest<{ Body: Create
     const user = await createUser(request.body);
     return sendResponse(reply, 201, true, "User registered successfully", user);
 
+}
+
+export async function getUsersHandler(request: FastifyRequest, reply: FastifyReply) {
+    
+    const users = await findUsers(false)
+    return sendResponse(reply, 200, true, "All users was fetched successfully", users)
 }

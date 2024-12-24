@@ -27,3 +27,12 @@ export async function findUserByEmail(userEmail: string, include: boolean) {
         }
     })
 }
+
+//Find all users
+export async function findUsers(include: boolean) {
+    return await prisma.user.findMany({
+        include: {
+            products: include
+        }
+    })
+}

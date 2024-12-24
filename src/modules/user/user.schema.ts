@@ -31,9 +31,21 @@ const createUserResponseSchema = z.object({
     })
 })
 
+const fetchUsersResponseSchema = z.object({
+    ...responseCore,
+    data: z.array(
+        z.object({
+            id: z.number(),
+            email: z.string(),
+            name: z.string(),
+        })
+    )
+})
+
 export type CreateUserInput = z.infer<typeof createUserSchema>;
 
 export const { schemas: userSchemas, $ref: userRef } = buildJsonSchemas({
     createUserSchema,
-    createUserResponseSchema
+    createUserResponseSchema,
+    fetchUsersResponseSchema
 }, { $id: 'UserSchema' })

@@ -7,6 +7,7 @@ import { userSchemas } from './modules/user/user.schema';
 import { authSchemas } from './modules/auth/auth.schema';
 import { sendResponse } from './utils/response.utils';
 import authRoutes from './modules/auth/auth.route';
+import { productSchemas } from './modules/product/product.schema';
 
 export const app: FastifyInstance = Fastify({ logger: true });
 
@@ -33,7 +34,7 @@ declare module 'fastify' {
 app.register(userRoutes, { prefix: '/v1/api/users' });
 app.register(authRoutes, { prefix: '/v1/api' });
 
-for (const schema of [...userSchemas, ...authSchemas]) {
+for (const schema of [...userSchemas, ...authSchemas, ...productSchemas]) {
     app.addSchema(schema)
 }
 

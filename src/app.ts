@@ -10,6 +10,7 @@ import { authSchemas } from './modules/auth/auth.schema';
 import { productSchemas } from './modules/product/product.schema';
 import { sendResponse } from './utils/response.utils';
 import productRoutes from './modules/product/product.route';
+import { setupSwagger } from './utils/swagger';
 
 // Extend Fastify Types (Must be at the top level)
 declare module 'fastify' {
@@ -31,22 +32,7 @@ export const app: FastifyInstance = Fastify({ logger: true });
 export const buildApp = (): FastifyInstance => {
 
     //For the documentation
-    app.register(import('@fastify/swagger'))
-    app.register(import('@fastify/swagger-ui'), {
-        routePrefix: '/documentation',
-        uiConfig: {
-          docExpansion: 'full',
-          deepLinking: false
-        },
-        uiHooks: {
-          onRequest: function (request, reply, next) { next() },
-          preHandler: function (request, reply, next) { next() }
-        },
-        staticCSP: true,
-        transformStaticCSP: (header) => header,
-        transformSpecification: (swaggerObject, request, reply) => { return swaggerObject },
-        transformSpecificationClone: true
-      })      
+    setupSwagger(app);    
 
     // Register JWT plugin
     app.register(fastifyJwt, {

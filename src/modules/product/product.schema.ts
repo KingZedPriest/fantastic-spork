@@ -32,7 +32,6 @@ const productResponseSchema = z.object({
     })
 })
 
-
 const productsResponseSchema = z.array(productResponseSchema);
 
 export type CreateProductInput = z.infer<typeof createProductSchema>

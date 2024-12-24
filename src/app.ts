@@ -9,6 +9,7 @@ import { userSchemas } from './modules/user/user.schema';
 import { authSchemas } from './modules/auth/auth.schema';
 import { productSchemas } from './modules/product/product.schema';
 import { sendResponse } from './utils/response.utils';
+import productRoutes from './modules/product/product.route';
 
 // Extend Fastify Types (Must be at the top level)
 declare module 'fastify' {
@@ -24,9 +25,10 @@ declare module '@fastify/jwt' {
     }
 }
 
+export const app: FastifyInstance = Fastify({ logger: true });
+
 // Build the Fastify app
 export const buildApp = (): FastifyInstance => {
-    const app: FastifyInstance = Fastify({ logger: true });
 
     // Register JWT plugin
     app.register(fastifyJwt, {
@@ -48,6 +50,7 @@ export const buildApp = (): FastifyInstance => {
     // Register routes and schemas
     app.register(userRoutes, { prefix: '/v1/api/users' });
     app.register(authRoutes, { prefix: '/v1/api' });
+    app.register(productRoutes,  { prefix: '/v1/api/products'})
 
     for (const schema of [...userSchemas, ...authSchemas, ...productSchemas]) {
         app.addSchema(schema);

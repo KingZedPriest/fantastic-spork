@@ -1,7 +1,7 @@
 import { FastifyInstance } from "fastify";
 
 //Handlers
-import { createProductHandler } from "./product.controller";
+import { createProductHandler, getProductsHandler } from "./product.controller";
 
 //Schemas
 import { productRef } from "./product.schema";
@@ -18,5 +18,17 @@ export default async function productRoutes(app: FastifyInstance) {
             }
         },
         createProductHandler
+    );
+
+    app.get('/allProducts', 
+        {
+            preHandler: app.authenticate,
+            schema: {
+                response: {
+                    200: productRef('productsResponseSchema')
+                }
+            }
+        },
+        getProductsHandler
     )
 }

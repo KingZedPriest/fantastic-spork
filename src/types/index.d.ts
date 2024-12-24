@@ -18,3 +18,10 @@ declare type ApiResponse<T = any> = {
     message: string;
     data?: T;
 }
+
+//User
+declare type User = {
+    email: string;
+    name: string | null;
+    id: number;
+}

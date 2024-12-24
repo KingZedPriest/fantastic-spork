@@ -11,6 +11,7 @@ import { findUserByEmail } from "../user/user.service";
 import { sendResponse } from "../../utils/response.utils";
 import { verifyPassword } from "../../utils/hash";
 
+//User login
 export async function loginHandler(request: FastifyRequest<{ Body: LoginUserInput }>, reply: FastifyReply) {
 
     const { email, password } = request.body

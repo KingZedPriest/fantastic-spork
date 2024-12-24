@@ -8,7 +8,7 @@ const productCore = {
     title: z.string({
         required_error: "Title is required"
     }),
-    price: z.string({
+    price: z.number({
         required_error: "Price is required"
     }),
     content: z.string().optional()

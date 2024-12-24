@@ -5,6 +5,7 @@ import { createUser, findUserByEmail, findUsers } from "./user.service";
 import { CreateUserInput } from "./user.schema";
 import { sendResponse } from "../../utils/response.utils";
 
+//Create a new user
 export async function registerUserHandler(request: FastifyRequest<{ Body: CreateUserInput }>, reply: FastifyReply) {
 
     //Check if user exists
@@ -17,8 +18,9 @@ export async function registerUserHandler(request: FastifyRequest<{ Body: Create
 
 }
 
+//Get Users
 export async function getUsersHandler(request: FastifyRequest, reply: FastifyReply) {
-    
+
     const users = await findUsers(false)
     return sendResponse(reply, 200, true, "All users was fetched successfully", users)
 }

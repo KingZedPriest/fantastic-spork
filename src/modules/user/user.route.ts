@@ -6,6 +6,7 @@ import { getUsersHandler, registerUserHandler } from "./user.controller";
 //Schemas
 import { userRef } from "./user.schema";
 
+//User routes
 export default async function userRoutes(app: FastifyInstance) {
     app.post("/",
         {

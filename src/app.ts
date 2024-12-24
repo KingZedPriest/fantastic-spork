@@ -30,6 +30,24 @@ export const app: FastifyInstance = Fastify({ logger: true });
 // Build the Fastify app
 export const buildApp = (): FastifyInstance => {
 
+    //For the documentation
+    app.register(import('@fastify/swagger'))
+    app.register(import('@fastify/swagger-ui'), {
+        routePrefix: '/documentation',
+        uiConfig: {
+          docExpansion: 'full',
+          deepLinking: false
+        },
+        uiHooks: {
+          onRequest: function (request, reply, next) { next() },
+          preHandler: function (request, reply, next) { next() }
+        },
+        staticCSP: true,
+        transformStaticCSP: (header) => header,
+        transformSpecification: (swaggerObject, request, reply) => { return swaggerObject },
+        transformSpecificationClone: true
+      })      
+
     // Register JWT plugin
     app.register(fastifyJwt, {
         secret: JWT_SECRET,

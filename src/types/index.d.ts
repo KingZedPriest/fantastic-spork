@@ -1,3 +1,4 @@
+//For the Response
 declare type IGenericObject = {
     [key: string]: any;
 }

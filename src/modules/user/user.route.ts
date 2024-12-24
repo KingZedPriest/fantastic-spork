@@ -8,7 +8,8 @@ import { userRef } from "./user.schema";
 
 export default async function userRoutes(app: FastifyInstance) {
     app.post("/",
-        { schema: {
+        {
+            schema: {
                 body: userRef('createUserSchema'),
                 response: {
                     201: userRef('createUserResponseSchema')
@@ -17,13 +18,10 @@ export default async function userRoutes(app: FastifyInstance) {
         }, registerUserHandler
     )
 
-    app.get("/getUsers", {
-        schema: {
-            response: {
-                200: userRef('fetchUsersResponseSchema')
-            }
-        }
-    }, getUsersHandler
-)
+    app.get(
+        '/getUsers',
+        { preHandler: app.authenticate, schema: { response: { 200: userRef('fetchUsersResponseSchema') } } },
+        getUsersHandler
+    );
 }
 

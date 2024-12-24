@@ -8,17 +8,26 @@ import { authSchemas } from './modules/auth/auth.schema';
 import { sendResponse } from './utils/response.utils';
 import authRoutes from './modules/auth/auth.route';
 
-export const app: FastifyInstance = Fastify({
-    logger: true
+export const app: FastifyInstance = Fastify({ logger: true });
+
+// Register JWT plugin
+app.register(fastifyJwt, {
+    secret: process.env.JWT_SECRET || 'defaultSecret',
+    sign: { expiresIn: '1h' },
 });
 
-app.register(fastifyJwt, {
-    secret: "aRandomSecret"
-})
+// Add `authenticate` decorator
+app.decorate('authenticate', async function (this: typeof app, request: FastifyRequest, reply: FastifyReply) {
 
-app.decorate("authenticate", async (request: FastifyRequest, reply: FastifyReply) => {
-    await request.jwtVerify()
-})
+    await request.jwtVerify();
+});
+
+//Extend Fastify Types
+declare module 'fastify' {
+    export interface FastifyInstance {
+        authenticate: (request: FastifyRequest, reply: FastifyReply) => Promise<void>;
+    }
+}
 
 // Register the routes and Schemas
 app.register(userRoutes, { prefix: '/v1/api/users' });
@@ -36,10 +45,7 @@ app.get('/healthcheck', async () => {
 // Global error handler
 app.setErrorHandler((error: FastifyError, request, reply) => {
 
-    // Log the error
     request.log.error(error);
-
-    // Send error response
     return sendResponse(reply, 500, false, error.message)
 });
 
